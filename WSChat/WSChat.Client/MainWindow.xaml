@@ -1,0 +1,61 @@
+﻿<Window x:Class="WSChat.Client.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="WSChat" Height="400" Width="500"
+        Loaded="Window_Loaded">
+
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <ListBox x:Name="MessageList"
+                 Background="Black"
+                 BorderThickness="0"
+                 Margin="0,0,0,10"
+                 FontSize="14"
+                 Foreground="White"
+                 HorizontalContentAlignment="Stretch">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <Border Padding="10" Margin="5" CornerRadius="10">
+                        <StackPanel>
+                            <TextBlock Text="{Binding User}" FontWeight="Bold" Foreground="White" FontSize="12"/>
+                            <TextBlock Text="{Binding Text}" Foreground="White" TextWrapping="Wrap"/>
+                        </StackPanel>
+                    </Border>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+
+        <Grid Grid.Row="1" Cursor="">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+
+            <TextBox x:Name="InputBox"
+                     Background="DimGray"
+                     Foreground="White"
+                     BorderThickness="0"
+                     FontSize="14"
+                     Padding="10"
+                     MinHeight="40"
+                     Margin="0,0,10,0"
+                     VerticalContentAlignment="Center"
+                     KeyDown="InputBox_KeyDown"/>
+
+            <Button x:Name="SendButton"
+                    Grid.Column="1"
+                    Content="Send"
+                    Width="80"
+                    Background="DarkBlue"
+                    Foreground="White"
+                    FontWeight="Bold"
+                    BorderThickness="0"
+                    Cursor="Hand"
+                    Click="SendButton_Click"/>
+        </Grid>
+    </Grid>
+</Window>
