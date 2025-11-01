@@ -1,8 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "48zJHnMojcM=",
+  "dgSpecHash": "U6RTBOYKN/M=",
   "success": true,
   "projectFilePath": "C:\\Users\\admin\\source\\repos\\WSChat.Server\\WSChat.Server\\WSChat.Server.csproj",
-  "expectedPackageFiles": [],
+  "expectedPackageFiles": [
+    "C:\\Users\\admin\\.nuget\\packages\\bcrypt.net-next\\4.0.3\\bcrypt.net-next.4.0.3.nupkg.sha512"
+  ],
   "logs": []
 }

@@ -9,3 +9,4 @@ C:\Users\admin\source\repos\WSChat.Shared\WSChat.Shared\obj\Debug\net8.0\WSChat.
 C:\Users\admin\source\repos\WSChat.Shared\WSChat.Shared\obj\Debug\net8.0\refint\WSChat.Shared.dll
 C:\Users\admin\source\repos\WSChat.Shared\WSChat.Shared\obj\Debug\net8.0\WSChat.Shared.pdb
 C:\Users\admin\source\repos\WSChat.Shared\WSChat.Shared\obj\Debug\net8.0\ref\WSChat.Shared.dll
+C:\Users\admin\source\repos\WSChat.Shared\WSChat.Shared\obj\Debug\net8.0\WSChat.Shared.csproj.AssemblyReference.cache

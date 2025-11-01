@@ -1,116 +1,220 @@
-﻿using System.Net.WebSockets;
+﻿using System;
+using System.Collections.Concurrent;
+using System.Collections.ObjectModel;
+using System.Net.WebSockets;
 using System.Text;
-using System.Threading;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Media;
-using System.Windows.Input;
 using System.Text.Json;
+using System.Threading;
+using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Input;
 using WSChat.Shared;
-
 
 namespace WSChat.Client;
 
 public partial class MainWindow : Window
 {
-    private ClientWebSocket _socket = new ClientWebSocket();
+    private ClientWebSocket _socket;
+    private readonly string _username;
+    private readonly ObservableCollection<ChatMessage> _messages = new();
+    private readonly ConcurrentQueue<ChatPacket> _outQueue = new();
+    private bool _processingQueue = false;
+    private readonly object _queueLock = new();
 
-    public MainWindow()
+    public MainWindow(ClientWebSocket socket, string username)
     {
         InitializeComponent();
-    }
 
-    private async void Window_Loaded(object sender, RoutedEventArgs e)
-    {
-        await _socket.ConnectAsync(new Uri("ws://localhost:5000/chat/"), CancellationToken.None);
+        _socket = socket ?? throw new ArgumentNullException(nameof(socket));
+        _username = username ?? throw new ArgumentNullException(nameof(username));
+
+        MessageList.ItemsSource = _messages;
+
+        Console.WriteLine($"[MainWindow] ctor: socket state = {_socket.State}, username = {_username}");
+
         _ = ReceiveMessages();
-    }
+        _ = ProcessQueueAsync();
 
-    private async void SendButton_Click(object sender, RoutedEventArgs e)
-    {
-        SendMessage();
-    }
-
-    private async void SendMessage()
-    {
-        string message = InputBox.Text.Trim();
-        if (string.IsNullOrWhiteSpace(message)) return;
-
-        var msg = new ChatMessage
+        _ = Task.Run(async () =>
         {
-            User = "User",
-            Text = message,
-            IsMine = true
-        };
+            await Task.Delay(200);
+            try
+            {
+                var ping = new ChatPacket { Type = "ping", From = _username, Text = "ping" };
+                string pjson = JsonSerializer.Serialize(ping);
+                Console.WriteLine("[Client] Sending test ping: " + pjson);
+                var buf = Encoding.UTF8.GetBytes(pjson);
+                if (_socket != null && _socket.State == WebSocketState.Open)
+                    await _socket.SendAsync(new ArraySegment<byte>(buf), WebSocketMessageType.Text, true, CancellationToken.None);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("[Client] Ping failed: " + ex);
+            }
+        });
+    }
 
-        MessageList.Items.Add(msg);
+    private async void SendButton_Click(object sender, RoutedEventArgs e) => await SendMessage();
 
-        string json = JsonSerializer.Serialize(msg);
-        byte[] buffer = Encoding.UTF8.GetBytes(json);
-        await _socket.SendAsync(new ArraySegment<byte>(buffer), WebSocketMessageType.Text, true, CancellationToken.None);
+    private async Task SendMessage()
+    {
+        try
+        {
+            string message = InputBox.Text.Trim();
+            if (string.IsNullOrWhiteSpace(message)) return;
 
-        AddMessage(msg);
-        InputBox.Clear();
+            ChatPacket packet;
+            if (message.StartsWith("/w "))
+            {
+                var parts = message.Split(' ', 3);
+                if (parts.Length >= 3)
+                {
+                    packet = new ChatPacket { Type = "private", From = _username, To = parts[1], Text = parts[2] };
+                }
+                else
+                {
+                    _messages.Add(new ChatMessage { User = "System", Text = "Private format: /w username text", IsMine = false });
+                    return;
+                }
+            }
+            else
+            {
+                packet = new ChatPacket { Type = "message", From = _username, Text = message };
+            }
+
+            _outQueue.Enqueue(packet);
+            _ = ProcessQueueAsync();
+
+            InputBox.Clear();
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("[Client] SendMessage exception: " + ex);
+            Dispatcher.Invoke(() => _messages.Add(new ChatMessage { User = "Error", Text = ex.Message, IsMine = false }));
+        }
+    }
+
+    private async Task ProcessQueueAsync()
+    {
+        if (_processingQueue) return;
+        lock (_queueLock)
+        {
+            if (_processingQueue) return;
+            _processingQueue = true;
+        }
+
+        try
+        {
+            while (_outQueue.TryDequeue(out var pkt))
+            {
+                if (_socket == null || _socket.State != WebSocketState.Open)
+                {
+                    _outQueue.Enqueue(pkt);
+                    await Task.Delay(300);
+                    continue;
+                }
+
+                try
+                {
+                    string json = JsonSerializer.Serialize(pkt);
+                    byte[] buffer = Encoding.UTF8.GetBytes(json);
+                    Console.WriteLine("[Client] Sending: " + json);
+                    await _socket.SendAsync(new ArraySegment<byte>(buffer), WebSocketMessageType.Text, true, CancellationToken.None);
+                    await Task.Delay(10);
+                }
+                catch (Exception sx)
+                {
+                    Console.WriteLine("[Client] Send failed, requeue: " + sx);
+                    _outQueue.Enqueue(pkt);
+                    await Task.Delay(300);
+                }
+            }
+        }
+        finally
+        {
+            _processingQueue = false;
+        }
     }
 
     private void InputBox_KeyDown(object sender, KeyEventArgs e)
     {
         if (e.Key == Key.Enter)
         {
-            SendButton_Click(sender, e);
+            _ = SendMessage();
             e.Handled = true;
         }
     }
 
     private async Task ReceiveMessages()
     {
-        var buffer = new byte[1024 * 4];
-
-        while (_socket.State == WebSocketState.Open)
+        var buffer = new byte[4096];
+        try
         {
-            var result = await _socket.ReceiveAsync(buffer, CancellationToken.None);
-            string json = Encoding.UTF8.GetString(buffer, 0, result.Count);
-
-            try
+            while (_socket != null && _socket.State == WebSocketState.Open)
             {
-                var msg = JsonSerializer.Deserialize<ChatMessage>(json);
-                if (msg != null)
+                var result = await _socket.ReceiveAsync(new ArraySegment<byte>(buffer), CancellationToken.None);
+                if (result.MessageType == WebSocketMessageType.Close)
                 {
-                    Dispatcher.Invoke(() => MessageList.Items.Add(msg));
+                    Console.WriteLine("[Client] Server closed connection");
+                    break;
                 }
-            }
-            catch
-            {
-                Dispatcher.Invoke(() => MessageList.Items.Add(new ChatMessage
+
+                var json = Encoding.UTF8.GetString(buffer, 0, result.Count);
+                Console.WriteLine("[Client] Received: " + json);
+
+                ChatPacket? pkt = null;
+                try { pkt = JsonSerializer.Deserialize<ChatPacket>(json); } catch { }
+
+                if (pkt == null)
                 {
-                    User = "Server",
-                    Text = json,
-                    IsMine = false
-                }));
+                    Dispatcher.Invoke(() => _messages.Add(new ChatMessage { User = "Raw", Text = json, IsMine = false }));
+                    continue;
+                }
+
+                switch (pkt.Type)
+                {
+                    case "system":
+                        Dispatcher.Invoke(() => _messages.Add(new ChatMessage { User = "System", Text = pkt.Text, IsMine = false }));
+                        break;
+
+                    case "message":
+                        {
+                            bool isMine = pkt.From == _username;
+                            Dispatcher.Invoke(() => _messages.Add(new ChatMessage { User = pkt.From, Text = pkt.Text, IsMine = isMine }));
+                            break;
+                        }
+
+                    case "private":
+                        {
+                            if (pkt.To == _username || pkt.From == _username)
+                                Dispatcher.Invoke(() => _messages.Add(new ChatMessage { User = $"(private) {pkt.From}", Text = pkt.Text, IsMine = pkt.From == _username }));
+                            break;
+                        }
+
+                    default:
+                        Dispatcher.Invoke(() => _messages.Add(new ChatMessage { User = "Unknown", Text = json, IsMine = false }));
+                        break;
+                }
+
+                if (!_processingQueue)
+                    _ = ProcessQueueAsync();
             }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("[Client] ReceiveMessages exception: " + ex);
+            Dispatcher.Invoke(() => _messages.Add(new ChatMessage { User = "Error", Text = ex.Message, IsMine = false }));
         }
     }
 
-    private void AddMessage(ChatMessage msg)
+    protected override void OnClosed(EventArgs e)
     {
-        var bubble = new Border
+        base.OnClosed(e);
+        try
         {
-            Background = msg.IsMine ? Brushes.LightBlue : Brushes.Gray,
-            CornerRadius = new CornerRadius(10),
-            Padding = new Thickness(10),
-            Margin = new Thickness(5),
-            HorizontalAlignment = msg.IsMine ? HorizontalAlignment.Right : HorizontalAlignment.Left,
-            Child = new StackPanel
-            {
-                Children =
-            {
-                new TextBlock { Text = msg.User, FontWeight = FontWeights.Bold, Foreground = Brushes.White },
-                new TextBlock { Text = msg.Text, Foreground = Brushes.White, TextWrapping = TextWrapping.Wrap }
-            }
-            }
-        };
-
-        MessageList.Items.Add(bubble);
-        MessageList.ScrollIntoView(bubble);
+            if (_socket != null && _socket.State == WebSocketState.Open)
+                _ = _socket.CloseAsync(WebSocketCloseStatus.NormalClosure, "Client closed", CancellationToken.None);
+        }
+        catch { }
     }
 }

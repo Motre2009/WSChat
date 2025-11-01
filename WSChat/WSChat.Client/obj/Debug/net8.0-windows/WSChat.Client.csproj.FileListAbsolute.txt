@@ -21,3 +21,6 @@ C:\Users\admin\source\repos\WSChat.Client\WSChat.Client\bin\Debug\net8.0-windows
 C:\Users\admin\source\repos\WSChat.Client\WSChat.Client\bin\Debug\net8.0-windows\WSChat.Shared.pdb
 C:\Users\admin\source\repos\WSChat.Client\WSChat.Client\obj\Debug\net8.0-windows\WSChat.Client.csproj.AssemblyReference.cache
 C:\Users\admin\source\repos\WSChat.Client\WSChat.Client\obj\Debug\net8.0-windows\WSChat.C.6037E21E.Up2Date
+C:\Users\admin\source\repos\WSChat.Client\WSChat.Client\obj\Debug\net8.0-windows\LoginWindow.baml
+C:\Users\admin\source\repos\WSChat.Client\WSChat.Client\obj\Debug\net8.0-windows\LoginWindow.g.cs
+C:\Users\admin\source\repos\WSChat.Client\WSChat.Client\bin\Debug\net8.0-windows\BCrypt.Net-Next.dll

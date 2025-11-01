@@ -16,3 +16,5 @@ C:\Users\admin\source\repos\WSChat.Server\WSChat.Server\bin\Debug\net8.0\WSChat.
 C:\Users\admin\source\repos\WSChat.Server\WSChat.Server\bin\Debug\net8.0\WSChat.Shared.pdb
 C:\Users\admin\source\repos\WSChat.Server\WSChat.Server\obj\Debug\net8.0\WSChat.Server.csproj.AssemblyReference.cache
 C:\Users\admin\source\repos\WSChat.Server\WSChat.Server\obj\Debug\net8.0\WSChat.S.3D51E34C.Up2Date
+C:\Users\admin\source\repos\WSChat.Server\WSChat.Server\obj\Debug\net8.0\WSChat.Server.sourcelink.json
+C:\Users\admin\source\repos\WSChat.Server\WSChat.Server\bin\Debug\net8.0\BCrypt.Net-Next.dll
