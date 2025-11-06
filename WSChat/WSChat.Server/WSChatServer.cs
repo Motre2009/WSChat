@@ -11,6 +11,10 @@ public class WSChatServer
     private static readonly List<WebSocket> Clients = new();
     private static readonly Dictionary<WebSocket, string> UserNames = new();
     private static readonly Dictionary<string, string> RegisteredUsers = new();
+    private static readonly Dictionary<WebSocket, string> ClientRooms = new();
+    private static readonly HashSet<string> Rooms = new() { "General" };
+    private static readonly HashSet<string> Admin = new() { "admin" };
+    private static readonly Dictionary<string, DateTime> BannedUsers = new();
 
     public static async Task StartServer()
     {
@@ -26,7 +30,11 @@ public class WSChatServer
             {
                 var wsContext = await context.AcceptWebSocketAsync(null);
                 var socket = wsContext.WebSocket;
-                lock (Clients) { Clients.Add(socket); }
+                lock (Clients)
+                {
+                    Clients.Add(socket);
+                    ClientRooms[socket] = "General";
+                }
                 Console.WriteLine("Client connected");
 
                 _ = HandleClient(socket);
@@ -78,22 +86,43 @@ public class WSChatServer
                             lock (UserNames) { UserNames[socket] = packet.From; }
                             connectedUser = packet.From;
 
+                            lock (ClientRooms) { if (!ClientRooms.ContainsKey(socket)) ClientRooms[socket] = "General"; }
+
                             await SendJson(socket, new ChatPacket { Type = "register_ok", From = packet.From, Text = "Registration successful!" });
 
-                            await BroadcastSystem($"{packet.From} joined the chat");
+                            string room = ClientRooms.GetValueOrDefault(socket, "General")!;
+                            await BroadcastSystemToRoom(room, $"{packet.From} joined the chat");
+                            await BroadcastRoomsList();
                         }
                         break;
 
                     case "login":
+                        if (BannedUsers.TryGetValue(packet.From, out var banTime))
+                        {
+                            if (DateTime.UtcNow < banTime)
+                            {
+                                await SendJson(socket, new ChatPacket { Type = "system", From = "server", Text = $"You are banned until {banTime} UTC." });
+                                continue;
+                            }
+                            else
+                            {
+                                BannedUsers.Remove(packet.From);
+                            }
+                        }
+
                         if (RegisteredUsers.TryGetValue(packet.From, out var storedHash) &&
                             BCrypt.Net.BCrypt.Verify(packet.Text, storedHash))
                         {
                             lock (UserNames) { UserNames[socket] = packet.From; }
                             connectedUser = packet.From;
 
+                            lock (ClientRooms) { if (!ClientRooms.ContainsKey(socket)) ClientRooms[socket] = "General"; }
+
                             await SendJson(socket, new ChatPacket { Type = "login_ok", From = packet.From, Text = "Login successful!" });
 
-                            await BroadcastSystem($"{packet.From} joined the chat");
+                            string room = ClientRooms.GetValueOrDefault(socket, "General")!;
+                            await BroadcastSystemToRoom(room, $"{packet.From} joined the chat");
+                            await BroadcastRoomsList();
                         }
                         else
                         {
@@ -101,14 +130,247 @@ public class WSChatServer
                         }
                         break;
 
+                    case "create":
+                        {
+                            var roomName = packet.Text?.Trim();
+                            if (string.IsNullOrEmpty(roomName))
+                            {
+                                await SendJson(socket, new ChatPacket { Type = "system", From = "server", Text = "Room name cannot be empty." });
+                                break;
+                            }
+
+                            bool created = false;
+                            lock (Rooms)
+                            {
+                                if (!Rooms.Contains(roomName))
+                                {
+                                    Rooms.Add(roomName);
+                                    created = true;
+                                }
+                            }
+
+                            if (created)
+                            {
+                                Console.WriteLine($"[Server] Room created: {roomName}");
+                                await BroadcastRoomsList();
+                                await SendJson(socket, new ChatPacket { Type = "system", From = "server", Text = $"Room '{roomName}' created." });
+                            }
+                            else
+                            {
+                                await SendJson(socket, new ChatPacket { Type = "system", From = "server", Text = $"Room '{roomName}' already exists." });
+                            }
+                        }
+                        break;
+
+                    case "join":
+                        {
+                            var room = packet.Text?.Trim();
+                            if (string.IsNullOrEmpty(room))
+                            {
+                                await SendJson(socket, new ChatPacket { Type = "system", From = "server", Text = "Room name cannot be empty." });
+                                break;
+                            }
+
+                            bool exists;
+                            lock (Rooms) { exists = Rooms.Contains(room); }
+
+                            if (!exists)
+                            {
+                                await SendJson(socket, new ChatPacket { Type = "system", From = "server", Text = $"Room '{room}' does not exist." });
+                                break;
+                            }
+
+                            string prevRoom;
+                            lock (ClientRooms)
+                            {
+                                prevRoom = ClientRooms.GetValueOrDefault(socket, "General")!;
+                                ClientRooms[socket] = room;
+                            }
+
+                            await SendJson(socket, new ChatPacket { Type = "system", From = "server", Text = $"You have joined room: {room}" });
+                            await BroadcastSystemToRoom(prevRoom, $"{UserNames.GetValueOrDefault(socket, "Unknown")} left the room");
+                            await BroadcastSystemToRoom(room, $"{UserNames.GetValueOrDefault(socket, "Unknown")} joined the room");
+                        }
+                        break;
+
+                    case "admin_list":
+                        {
+                            if (UserNames.TryGetValue(socket, out var requester) && Admin.Contains(requester))
+                            {
+                                List<string> active;
+                                lock (UserNames)
+                                {
+                                    active = UserNames.Values.Where(n => !string.IsNullOrEmpty(n)).Distinct().ToList();
+                                }
+
+                                var text = string.Join(",", active);
+                                await SendJson(socket, new ChatPacket { Type = "admin_list", From = "server", Text = text });
+                            }
+                            else
+                            {
+                                await SendJson(socket, new ChatPacket { Type = "system", From = "server", Text = "Access denied." });
+                            }
+                        }
+                        break;
+
+
+                    case "kick":
+                        {
+                            if (!UserNames.TryGetValue(socket, out var admin) || !Admin.Contains(admin))
+                            {
+                                await SendJson(socket, new ChatPacket { Type = "system", From = "server", Text = "Access denied." });
+                                break;
+                            }
+
+                            var target = packet.Text?.Trim();
+                            if (string.IsNullOrEmpty(target))
+                            {
+                                await SendJson(socket, new ChatPacket { Type = "system", From = "server", Text = "Specify user to kick." });
+                                break;
+                            }
+
+                            var victim = UserNames.FirstOrDefault(x => x.Value == target).Key;
+                            if (victim != null)
+                            {
+                                await SendJson(victim, new ChatPacket { Type = "system", From = "server", Text = "You were kicked by admin." });
+                                await victim.CloseAsync(WebSocketCloseStatus.NormalClosure, "Kicked by admin", CancellationToken.None);
+                                lock (Clients) { Clients.Remove(victim); }
+                                lock (UserNames) { UserNames.Remove(victim); }
+                            }
+
+                            await BroadcastSystemToRoom("General", $"{target} was kicked by admin");
+                        }
+                        break;
+
+                    case "ban":
+                        {
+                            if (!UserNames.TryGetValue(socket, out var admin) || !Admin.Contains(admin))
+                            {
+                                await SendJson(socket, new ChatPacket { Type = "system", From = "server", Text = "Access denied." });
+                                break;
+                            }
+                            
+                            var parts = packet.Text?.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+                            if (parts == null || parts.Length < 2 || !int.TryParse(parts[1], out int minutes))
+                            {
+                                await SendJson(socket, new ChatPacket { Type = "system", From = "server", Text = "Usage: /ban <username> <minutes>" });
+                                break;
+                            }
+
+                            var targetUsers = parts[0];
+                            var until = DateTime.UtcNow.AddMinutes(minutes);
+                            BannedUsers[targetUsers] = until;
+
+                            var victim = UserNames.FirstOrDefault(x => x.Value == targetUsers).Key;
+                            if (victim != null)
+                            {
+                                await SendJson(victim, new ChatPacket { Type = "system", From = "server", Text = $"You are banned until {until.ToLocalTime()}" });
+                                await victim.CloseAsync(WebSocketCloseStatus.NormalClosure, "Banned by admin", CancellationToken.None);
+                            }
+
+                            await BroadcastSystemToRoom("General", $"{targetUsers} was banned by {admin} until {until.ToLocalTime()}");
+                        }
+                        break;
+
+                    case "admin_ban":
+                        {
+                            if (!UserNames.TryGetValue(socket, out var admin) || !Admin.Contains(admin))
+                            {
+                                await SendJson(socket, new ChatPacket { Type = "system", From = "server", Text = "Access denied." });
+                                break;
+                            }
+
+                            var target = packet.To?.Trim();
+                            if (string.IsNullOrEmpty(target) || !int.TryParse(packet.Text, out int minutes))
+                            {
+                                await SendJson(socket, new ChatPacket { Type = "system", From = "server", Text = "Invalid ban parameters." });
+                                break;
+                            }
+
+                            var until = DateTime.UtcNow.AddMinutes(minutes);
+                            BannedUsers[target] = until;
+
+                            var victim = UserNames.FirstOrDefault(x => x.Value == target).Key;
+                            if (victim != null)
+                            {
+                                await SendJson(victim, new ChatPacket { Type = "system", From = "server", Text = $"You are banned until {until.ToLocalTime()}." });
+                                await victim.CloseAsync(WebSocketCloseStatus.NormalClosure, "Banned by admin", CancellationToken.None);
+                            }
+
+                            await BroadcastSystemToRoom("General", $"{target} was banned by {admin} until {until.ToLocalTime()}");
+                            break;
+                        }
+
+                    case "admin_delete":
+                        {
+                            if (!UserNames.TryGetValue(socket, out var admin) || !Admin.Contains(admin))
+                            {
+                                await SendJson(socket, new ChatPacket { Type = "system", From = "server", Text = "Access denied." });
+                                break;
+                            }
+
+                            var target = packet.To?.Trim();
+                            if (string.IsNullOrEmpty(target))
+                            {
+                                await SendJson(socket, new ChatPacket { Type = "system", From = "server", Text = "Specify user to delete." });
+                                break;
+                            }
+
+                            var victim = UserNames.FirstOrDefault(x => x.Value == target).Key;
+                            if (victim != null)
+                            {
+                                await SendJson(victim, new ChatPacket { Type = "system", From = "server", Text = "Your account has been deleted by admin." });
+                                await victim.CloseAsync(WebSocketCloseStatus.NormalClosure, "Deleted by admin", CancellationToken.None);
+
+                                lock (Clients) Clients.Remove(victim);
+                                lock (UserNames) UserNames.Remove(victim);
+                            }
+
+                            await BroadcastSystemToRoom("General", $"{target} was deleted by {admin}");
+                            break;
+                        }
+
+                    case "leave":
+                        {
+                            string prev;
+                            lock (ClientRooms)
+                            {
+                                prev = ClientRooms.GetValueOrDefault(socket, "General")!;
+                                ClientRooms[socket] = "General";
+                            }
+                            await SendJson(socket, new ChatPacket { Type = "system", From = "server", Text = $"You left room: {prev}. Now in General." });
+                            await BroadcastSystemToRoom(prev, $"{UserNames.GetValueOrDefault(socket, "Unknown")} left the room");
+                            await BroadcastSystemToRoom("General", $"{UserNames.GetValueOrDefault(socket, "Unknown")} joined General");
+                        }
+                        break;
+
+                    case "list_rooms":
+                        await SendRoomsListTo(socket);
+                        break;
+
+                    case "who":
+                        {
+                            string roomNow;
+                            lock (ClientRooms) { roomNow = ClientRooms.GetValueOrDefault(socket, "General")!; }
+                            var users = GetUsersInRoom(roomNow);
+                            string text = string.Join(", ", users);
+                            await SendJson(socket, new ChatPacket { Type = "who", From = "server", Text = text });
+                        }
+                        break;
+
                     case "message":
                         if (UserNames.TryGetValue(socket, out var userName))
                         {
-                            await BroadcastMessage(userName, packet.Text);
+                            await BroadcastMessage(userName, packet.Text, socket);
                         }
                         else
                         {
-                            await SendJson(socket, new ChatPacket { Type = "system", From = "server", Text = "You are not authenticated." });
+                            await SendJson(socket, new ChatPacket
+                            {
+                                Type = "system",
+                                From = "server",
+                                Text = "You are not authenticated."
+                            });
                         }
                         break;
 
@@ -135,12 +397,15 @@ public class WSChatServer
         }
         finally
         {
+            string? roomBefore = null;
+            lock (ClientRooms) { ClientRooms.TryGetValue(socket, out roomBefore); ClientRooms.Remove(socket); }
+
             lock (Clients) { Clients.Remove(socket); }
 
             if (connectedUser != null)
             {
                 lock (UserNames) { UserNames.Remove(socket); }
-                await BroadcastSystem($"{connectedUser} disconnected");
+                await BroadcastSystemToRoom(roomBefore ?? "General", $"{connectedUser} disconnected");
             }
 
             try { socket.Dispose(); } catch { }
@@ -148,40 +413,110 @@ public class WSChatServer
         }
     }
 
-    private static async Task BroadcastSystem(string text)
+    private static async Task BroadcastRoomsList()
     {
-        var pkt = new ChatPacket { Type = "system", From = "Server", Text = text };
+        string text;
+        lock (Rooms) { text = string.Join(",", Rooms); }
+
+        var pkt = new ChatPacket { Type = "rooms", From = "server", Text = text };
         string json = JsonSerializer.Serialize(pkt);
-        Console.WriteLine($"[Server] >>> Broadcasting SYSTEM: {json}");
+        Console.WriteLine($"[Server] >>> Broadcasting ROOMS: {json}");
         byte[] buffer = Encoding.UTF8.GetBytes(json);
 
-        lock (Clients)
+        List<WebSocket> clientsCopy;
+        lock (Clients) { clientsCopy = Clients.ToList(); }
+
+        foreach (var client in clientsCopy)
         {
-            foreach (var client in Clients.ToList())
+            if (client.State == WebSocketState.Open)
             {
-                if (client.State == WebSocketState.Open)
+                try
                 {
-                    _ = client.SendAsync(new ArraySegment<byte>(buffer), WebSocketMessageType.Text, true, CancellationToken.None);
+                    await client.SendAsync(new ArraySegment<byte>(buffer), WebSocketMessageType.Text, true, CancellationToken.None);
                 }
+                catch { }
             }
         }
     }
 
-    private static async Task BroadcastMessage(string from, string text)
+    private static async Task SendRoomsListTo(WebSocket socket)
     {
-        var pkt = new ChatPacket { Type = "message", From = from, Text = text };
+        string text;
+        lock (Rooms) { text = string.Join(",", Rooms); }
+        await SendJson(socket, new ChatPacket { Type = "rooms", From = "server", Text = text });
+    }
+
+    private static IEnumerable<string> GetUsersInRoom(string room)
+    {
+        var result = new List<string>();
+        lock (ClientRooms)
+        {
+            foreach (var kv in ClientRooms)
+            {
+                if (kv.Value == room)
+                {
+                    if (UserNames.TryGetValue(kv.Key, out var name))
+                        result.Add(name);
+                }
+            }
+        }
+        return result;
+    }
+
+    private static async Task BroadcastSystemToRoom(string room, string text)
+    {
+        var pkt = new ChatPacket { Type = "system", From = "Server", Text = text };
         string json = JsonSerializer.Serialize(pkt);
-        Console.WriteLine($"[Server] >>> Broadcasting MESSAGE: {json}");
+        Console.WriteLine($"[Server] >>> Broadcasting SYSTEM to room {room}: {json}");
         byte[] buffer = Encoding.UTF8.GetBytes(json);
 
-        lock (Clients)
+        List<WebSocket> clientsCopy;
+        Dictionary<WebSocket, string> roomsSnapshot;
+        lock (Clients) { clientsCopy = Clients.ToList(); }
+        lock (ClientRooms) { roomsSnapshot = new Dictionary<WebSocket, string>(ClientRooms); }
+
+        var targets = clientsCopy.Where(c => roomsSnapshot.TryGetValue(c, out var r) && r == room).ToList();
+
+        foreach (var client in targets)
         {
-            foreach (var client in Clients.ToList())
+            if (client.State == WebSocketState.Open)
             {
-                if (client.State == WebSocketState.Open)
+                try
                 {
-                    _ = client.SendAsync(new ArraySegment<byte>(buffer), WebSocketMessageType.Text, true, CancellationToken.None);
+                    await client.SendAsync(new ArraySegment<byte>(buffer), WebSocketMessageType.Text, true, CancellationToken.None);
                 }
+                catch { }
+            }
+        }
+    }
+
+    private static async Task BroadcastMessage(string from, string text, WebSocket sender)
+    {
+        string? room;
+        lock (ClientRooms) { ClientRooms.TryGetValue(sender, out room); }
+        if (string.IsNullOrEmpty(room)) room = "General";
+
+        var pkt = new ChatPacket { Type = "message", From = from, Text = text };
+        string json = JsonSerializer.Serialize(pkt);
+        Console.WriteLine($"[Server] >>> Broadcasting MESSAGE to room {room}: {json}");
+        byte[] buffer = Encoding.UTF8.GetBytes(json);
+
+        List<WebSocket> clientsCopy;
+        Dictionary<WebSocket, string> roomsSnapshot;
+        lock (Clients) { clientsCopy = Clients.ToList(); }
+        lock (ClientRooms) { roomsSnapshot = new Dictionary<WebSocket, string>(ClientRooms); }
+
+        var targets = clientsCopy.Where(c => roomsSnapshot.TryGetValue(c, out var r) && r == room).ToList();
+
+        foreach (var client in targets)
+        {
+            if (client.State == WebSocketState.Open)
+            {
+                try
+                {
+                    await client.SendAsync(new ArraySegment<byte>(buffer), WebSocketMessageType.Text, true, CancellationToken.None);
+                }
+                catch { }
             }
         }
     }

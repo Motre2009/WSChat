@@ -1,0 +1,73 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\admin\\source\\repos\\WSChat.Shared\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{65A70833-02EB-4B31-8470-6E5BD8253F28}|WSChat.Shared\\WSChat.Shared.csproj|c:\\users\\admin\\source\\repos\\wschat.shared\\wschat.shared\\user.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{65A70833-02EB-4B31-8470-6E5BD8253F28}|WSChat.Shared\\WSChat.Shared.csproj|solutionrelative:wschat.shared\\user.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{65A70833-02EB-4B31-8470-6E5BD8253F28}|WSChat.Shared\\WSChat.Shared.csproj|c:\\users\\admin\\source\\repos\\wschat.shared\\wschat.shared\\chatpacket.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{65A70833-02EB-4B31-8470-6E5BD8253F28}|WSChat.Shared\\WSChat.Shared.csproj|solutionrelative:wschat.shared\\chatpacket.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{65A70833-02EB-4B31-8470-6E5BD8253F28}|WSChat.Shared\\WSChat.Shared.csproj|c:\\users\\admin\\source\\repos\\wschat.shared\\wschat.shared\\chatmessage.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{65A70833-02EB-4B31-8470-6E5BD8253F28}|WSChat.Shared\\WSChat.Shared.csproj|solutionrelative:wschat.shared\\chatmessage.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 1,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedHeight": 200,
+          "SelectedChildIndex": 1,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{3ae79031-e1bc-11d0-8f78-00a0c9110057}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "User.cs",
+              "DocumentMoniker": "C:\\Users\\admin\\source\\repos\\WSChat.Shared\\WSChat.Shared\\User.cs",
+              "RelativeDocumentMoniker": "WSChat.Shared\\User.cs",
+              "ToolTip": "C:\\Users\\admin\\source\\repos\\WSChat.Shared\\WSChat.Shared\\User.cs",
+              "RelativeToolTip": "WSChat.Shared\\User.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-01T10:45:31.764Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "ChatPacket.cs",
+              "DocumentMoniker": "C:\\Users\\admin\\source\\repos\\WSChat.Shared\\WSChat.Shared\\ChatPacket.cs",
+              "RelativeDocumentMoniker": "WSChat.Shared\\ChatPacket.cs",
+              "ToolTip": "C:\\Users\\admin\\source\\repos\\WSChat.Shared\\WSChat.Shared\\ChatPacket.cs",
+              "RelativeToolTip": "WSChat.Shared\\ChatPacket.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-01T13:39:43.87Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "ChatMessage.cs",
+              "DocumentMoniker": "C:\\Users\\admin\\source\\repos\\WSChat.Shared\\WSChat.Shared\\ChatMessage.cs",
+              "RelativeDocumentMoniker": "WSChat.Shared\\ChatMessage.cs",
+              "ToolTip": "C:\\Users\\admin\\source\\repos\\WSChat.Shared\\WSChat.Shared\\ChatMessage.cs",
+              "RelativeToolTip": "WSChat.Shared\\ChatMessage.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-30T15:50:46.248Z"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
