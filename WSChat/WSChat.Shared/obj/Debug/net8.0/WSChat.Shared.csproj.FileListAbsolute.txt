@@ -1,6 +1,7 @@
 C:\Users\admin\source\repos\WSChat.Shared\WSChat.Shared\bin\Debug\net8.0\WSChat.Shared.deps.json
 C:\Users\admin\source\repos\WSChat.Shared\WSChat.Shared\bin\Debug\net8.0\WSChat.Shared.dll
 C:\Users\admin\source\repos\WSChat.Shared\WSChat.Shared\bin\Debug\net8.0\WSChat.Shared.pdb
+C:\Users\admin\source\repos\WSChat.Shared\WSChat.Shared\obj\Debug\net8.0\WSChat.Shared.csproj.AssemblyReference.cache
 C:\Users\admin\source\repos\WSChat.Shared\WSChat.Shared\obj\Debug\net8.0\WSChat.Shared.GeneratedMSBuildEditorConfig.editorconfig
 C:\Users\admin\source\repos\WSChat.Shared\WSChat.Shared\obj\Debug\net8.0\WSChat.Shared.AssemblyInfoInputs.cache
 C:\Users\admin\source\repos\WSChat.Shared\WSChat.Shared\obj\Debug\net8.0\WSChat.Shared.AssemblyInfo.cs
@@ -9,4 +10,3 @@ C:\Users\admin\source\repos\WSChat.Shared\WSChat.Shared\obj\Debug\net8.0\WSChat.
 C:\Users\admin\source\repos\WSChat.Shared\WSChat.Shared\obj\Debug\net8.0\refint\WSChat.Shared.dll
 C:\Users\admin\source\repos\WSChat.Shared\WSChat.Shared\obj\Debug\net8.0\WSChat.Shared.pdb
 C:\Users\admin\source\repos\WSChat.Shared\WSChat.Shared\obj\Debug\net8.0\ref\WSChat.Shared.dll
-C:\Users\admin\source\repos\WSChat.Shared\WSChat.Shared\obj\Debug\net8.0\WSChat.Shared.csproj.AssemblyReference.cache

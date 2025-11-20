@@ -2,6 +2,7 @@
 using System.Net.WebSockets;
 using System.Text;
 using System.Text.Json;
+using System.Text.RegularExpressions;
 using WSChat.Shared;
 
 namespace WSChat.Server;
@@ -15,6 +16,23 @@ public class WSChatServer
     private static readonly HashSet<string> Rooms = new() { "General" };
     private static readonly HashSet<string> Admin = new() { "admin" };
     private static readonly Dictionary<string, DateTime> BannedUsers = new();
+    private static readonly HashSet<string> DeletedUsers = new();
+    private static readonly List<string> ForbiddenWords = new()
+    {
+        "Fuck",
+        "Shit",
+        "Ass",
+        "Bitch",
+        "Damn",
+        "Cunt",
+        "Dick",
+        "Piss",
+        "Cock",
+        "Motherfucker",
+        "Bastard",
+        "Tits",
+        "Prick"
+    };
 
     public static async Task StartServer()
     {
@@ -74,59 +92,75 @@ public class WSChatServer
                 switch (packet.Type)
                 {
                     case "register":
-                        if (RegisteredUsers.ContainsKey(packet.From))
                         {
-                            await SendJson(socket, new ChatPacket { Type = "system", From = "server", Text = $"Login '{packet.From}' already exists." });
-                        }
-                        else
-                        {
-                            string hashed = BCrypt.Net.BCrypt.HashPassword(packet.Text);
-                            RegisteredUsers[packet.From] = hashed;
+                            if (DeletedUsers.Contains(packet.From))
+                            {
+                                await SendJson(socket, new ChatPacket { Type = "system", From = "server", Text = "Your account has been permanently deleted." });
+                                continue;
+                            }
 
-                            lock (UserNames) { UserNames[socket] = packet.From; }
-                            connectedUser = packet.From;
+                            if (RegisteredUsers.ContainsKey(packet.From))
+                            {
+                                await SendJson(socket, new ChatPacket { Type = "system", From = "server", Text = $"Login '{packet.From}' already exists." });
+                            }
+                            else
+                            {
+                                string hashed = BCrypt.Net.BCrypt.HashPassword(packet.Text);
+                                RegisteredUsers[packet.From] = hashed;
 
-                            lock (ClientRooms) { if (!ClientRooms.ContainsKey(socket)) ClientRooms[socket] = "General"; }
+                                lock (UserNames) { UserNames[socket] = packet.From; }
+                                connectedUser = packet.From;
 
-                            await SendJson(socket, new ChatPacket { Type = "register_ok", From = packet.From, Text = "Registration successful!" });
+                                lock (ClientRooms) { if (!ClientRooms.ContainsKey(socket)) ClientRooms[socket] = "General"; }
 
-                            string room = ClientRooms.GetValueOrDefault(socket, "General")!;
-                            await BroadcastSystemToRoom(room, $"{packet.From} joined the chat");
-                            await BroadcastRoomsList();
+                                await SendJson(socket, new ChatPacket { Type = "register_ok", From = packet.From, Text = "Registration successful!" });
+
+                                string room = ClientRooms.GetValueOrDefault(socket, "General")!;
+                                await BroadcastSystemToRoom(room, $"{packet.From} joined the chat");
+                                await BroadcastRoomsList();
+                            }
                         }
                         break;
 
                     case "login":
-                        if (BannedUsers.TryGetValue(packet.From, out var banTime))
                         {
-                            if (DateTime.UtcNow < banTime)
+                            if (DeletedUsers.Contains(packet.From))
                             {
-                                await SendJson(socket, new ChatPacket { Type = "system", From = "server", Text = $"You are banned until {banTime} UTC." });
+                                await SendJson(socket, new ChatPacket { Type = "system", From = "server", Text = "Your account has been permanently deleted." });
                                 continue;
+                            }
+
+                            if (BannedUsers.TryGetValue(packet.From, out var banTime))
+                            {
+                                if (DateTime.UtcNow < banTime)
+                                {
+                                    await SendJson(socket, new ChatPacket { Type = "system", From = "server", Text = $"You are banned until {banTime} UTC." });
+                                    continue;
+                                }
+                                else
+                                {
+                                    BannedUsers.Remove(packet.From);
+                                }
+                            }
+
+                            if (RegisteredUsers.TryGetValue(packet.From, out var storedHash) &&
+                                BCrypt.Net.BCrypt.Verify(packet.Text, storedHash))
+                            {
+                                lock (UserNames) { UserNames[socket] = packet.From; }
+                                connectedUser = packet.From;
+
+                                lock (ClientRooms) { if (!ClientRooms.ContainsKey(socket)) ClientRooms[socket] = "General"; }
+
+                                await SendJson(socket, new ChatPacket { Type = "login_ok", From = packet.From, Text = "Login successful!" });
+
+                                string room = ClientRooms.GetValueOrDefault(socket, "General")!;
+                                await BroadcastSystemToRoom(room, $"{packet.From} joined the chat");
+                                await BroadcastRoomsList();
                             }
                             else
                             {
-                                BannedUsers.Remove(packet.From);
+                                await SendJson(socket, new ChatPacket { Type = "system", From = "server", Text = "Invalid login or password." });
                             }
-                        }
-
-                        if (RegisteredUsers.TryGetValue(packet.From, out var storedHash) &&
-                            BCrypt.Net.BCrypt.Verify(packet.Text, storedHash))
-                        {
-                            lock (UserNames) { UserNames[socket] = packet.From; }
-                            connectedUser = packet.From;
-
-                            lock (ClientRooms) { if (!ClientRooms.ContainsKey(socket)) ClientRooms[socket] = "General"; }
-
-                            await SendJson(socket, new ChatPacket { Type = "login_ok", From = packet.From, Text = "Login successful!" });
-
-                            string room = ClientRooms.GetValueOrDefault(socket, "General")!;
-                            await BroadcastSystemToRoom(room, $"{packet.From} joined the chat");
-                            await BroadcastRoomsList();
-                        }
-                        else
-                        {
-                            await SendJson(socket, new ChatPacket { Type = "system", From = "server", Text = "Invalid login or password." });
                         }
                         break;
 
@@ -195,23 +229,20 @@ public class WSChatServer
 
                     case "admin_list":
                         {
-                            if (UserNames.TryGetValue(socket, out var requester) && Admin.Contains(requester))
+                            if (!UserNames.TryGetValue(socket, out var adminName) || !Admin.Contains(adminName))
                             {
-                                List<string> active;
-                                lock (UserNames)
-                                {
-                                    active = UserNames.Values.Where(n => !string.IsNullOrEmpty(n)).Distinct().ToList();
-                                }
+                                await SendJson(socket, new ChatPacket { Type = "system", Text = "Access denied." });
+                                break;
+                            }
 
-                                var text = string.Join(",", active);
-                                await SendJson(socket, new ChatPacket { Type = "admin_list", From = "server", Text = text });
-                            }
-                            else
+                            var activeUsers = string.Join(",", UserNames.Values);
+                            await SendJson(socket, new ChatPacket
                             {
-                                await SendJson(socket, new ChatPacket { Type = "system", From = "server", Text = "Access denied." });
-                            }
+                                Type = "admin_list",
+                                Text = activeUsers
+                            });
+                            break;
                         }
-                        break;
 
 
                     case "kick":
@@ -234,11 +265,18 @@ public class WSChatServer
                             {
                                 await SendJson(victim, new ChatPacket { Type = "system", From = "server", Text = "You were kicked by admin." });
                                 await victim.CloseAsync(WebSocketCloseStatus.NormalClosure, "Kicked by admin", CancellationToken.None);
-                                lock (Clients) { Clients.Remove(victim); }
-                                lock (UserNames) { UserNames.Remove(victim); }
-                            }
 
-                            await BroadcastSystemToRoom("General", $"{target} was kicked by admin");
+                                lock (Clients)
+                                {
+                                    Clients.Remove(victim);
+                                }
+                                lock (UserNames)
+                                {
+                                    UserNames.Remove(victim);
+                                }
+                                
+                                await BroadcastSystemToRoom("General", $"{target} was kicked by admin");
+                            }
                         }
                         break;
 
@@ -249,7 +287,7 @@ public class WSChatServer
                                 await SendJson(socket, new ChatPacket { Type = "system", From = "server", Text = "Access denied." });
                                 break;
                             }
-                            
+
                             var parts = packet.Text?.Split(' ', StringSplitOptions.RemoveEmptyEntries);
                             if (parts == null || parts.Length < 2 || !int.TryParse(parts[1], out int minutes))
                             {
@@ -266,9 +304,18 @@ public class WSChatServer
                             {
                                 await SendJson(victim, new ChatPacket { Type = "system", From = "server", Text = $"You are banned until {until.ToLocalTime()}" });
                                 await victim.CloseAsync(WebSocketCloseStatus.NormalClosure, "Banned by admin", CancellationToken.None);
-                            }
 
-                            await BroadcastSystemToRoom("General", $"{targetUsers} was banned by {admin} until {until.ToLocalTime()}");
+                                lock (Clients)
+                                {
+                                    Clients.Remove(victim);
+                                }
+                                lock (UserNames)
+                                {
+                                    UserNames.Remove(victim);
+                                }
+
+                                await BroadcastSystemToRoom("General", $"{targetUsers} was banned by {admin} until {until.ToLocalTime()}");
+                            }
                         }
                         break;
 
@@ -293,11 +340,15 @@ public class WSChatServer
                             var victim = UserNames.FirstOrDefault(x => x.Value == target).Key;
                             if (victim != null)
                             {
-                                await SendJson(victim, new ChatPacket { Type = "system", From = "server", Text = $"You are banned until {until.ToLocalTime()}." });
+                                await SendJson(victim, new ChatPacket { Type = "system", From = "server", Text = $"You are banned until {until.ToLocalTime()}" });
                                 await victim.CloseAsync(WebSocketCloseStatus.NormalClosure, "Banned by admin", CancellationToken.None);
-                            }
 
-                            await BroadcastSystemToRoom("General", $"{target} was banned by {admin} until {until.ToLocalTime()}");
+                                lock (Clients) Clients.Remove(victim);
+                                lock (UserNames) UserNames.Remove(victim);
+                                lock (ClientRooms) ClientRooms.Remove(victim ?? socket);
+                                await BroadcastSystemToRoom("General", $"{target} was banned by {admin} until {until.ToLocalTime()}");
+                            }
+                            await SendUpdatedAdminList();
                             break;
                         }
 
@@ -316,19 +367,23 @@ public class WSChatServer
                                 break;
                             }
 
+                            DeletedUsers.Add(target);
+                            RegisteredUsers.Remove(target);
+                            await SendUpdatedAdminList();
+
                             var victim = UserNames.FirstOrDefault(x => x.Value == target).Key;
                             if (victim != null)
                             {
-                                await SendJson(victim, new ChatPacket { Type = "system", From = "server", Text = "Your account has been deleted by admin." });
+                                await SendJson(victim, new ChatPacket { Type = "system", From = "server", Text = $"You are deleted until."});
                                 await victim.CloseAsync(WebSocketCloseStatus.NormalClosure, "Deleted by admin", CancellationToken.None);
 
                                 lock (Clients) Clients.Remove(victim);
                                 lock (UserNames) UserNames.Remove(victim);
+                                lock (ClientRooms) ClientRooms.Remove(victim ?? socket);
+                                await BroadcastSystemToRoom("General", $"{target} was deleted by {admin}.");
                             }
-
-                            await BroadcastSystemToRoom("General", $"{target} was deleted by {admin}");
-                            break;
                         }
+                        break;
 
                     case "leave":
                         {
@@ -374,6 +429,46 @@ public class WSChatServer
                         }
                         break;
 
+                    case "chat_message":
+                        {
+                            string msg = packet.Text ?? "";
+                            string censored = CensorMessage(msg);
+
+                            if (censored != msg)
+                            {
+                                KeyValuePair<WebSocket, string>[] usersSnapshot;
+                                lock (UserNames)
+                                {
+                                    usersSnapshot = UserNames.ToArray();
+                                }
+
+                                foreach (var kv in usersSnapshot)
+                                {
+                                    var adminSocket = kv.Key;
+                                    var user = kv.Value;
+                                    if (Admin.Contains(user) && adminSocket != null && adminSocket.State == WebSocketState.Open)
+                                    {
+                                        try
+                                        {
+                                            await SendJson(adminSocket, new ChatPacket
+                                            {
+                                                Type = "system",
+                                                From = "server",
+                                                Text = $"User '{packet.From}' sent a forbidden word: \"{msg}\""
+                                            });
+                                        }
+                                        catch
+                                        {
+                                        }
+                                    }
+                                }
+                            }
+
+                            await BroadcastMessage(packet.From ?? "Unknown", censored, socket);
+                            break;
+                        }
+
+
                     case "private":
                         if (!UserNames.TryGetValue(socket, out var fromName))
                         {
@@ -410,6 +505,21 @@ public class WSChatServer
 
             try { socket.Dispose(); } catch { }
             Console.WriteLine("Client disconnected");
+        }
+    }
+
+    private static async Task SendUpdatedAdminList()
+    {
+        KeyValuePair<WebSocket, string>[] snapshot;
+        lock (UserNames) snapshot = UserNames.ToArray();
+
+        var list = string.Join(",", snapshot.Select(k => k.Value));
+        foreach (var kvp in snapshot)
+        {
+            if (Admin.Contains(kvp.Value) && kvp.Key?.State == WebSocketState.Open)
+            {
+                await SendJson(kvp.Key, new ChatPacket { Type = "admin_list", Text = list });
+            }
         }
     }
 
@@ -552,5 +662,18 @@ public class WSChatServer
                 await SendJson(senderSocket, new ChatPacket { Type = "system", From = "server", Text = $"User {to} is not online" });
             }
         }
+    }
+
+    private static string CensorMessage(string message)
+    {
+        string censor = message;
+
+        foreach (var word in ForbiddenWords)
+        {
+            var pattern = "\\b" + Regex.Escape(word) + "\\b";
+            censor = Regex.Replace(censor, pattern, "###", RegexOptions.IgnoreCase);
+        }
+
+        return censor;
     }
 }

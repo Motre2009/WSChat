@@ -138,7 +138,7 @@ public partial class MainWindow : Window
             }
             else
             {
-                packet = new ChatPacket { Type = "message", From = _username, Text = message };
+                packet = new ChatPacket { Type = "chat_message", From = _username, Text = message };
             }
 
             await SendPacketAsync(packet);
@@ -310,13 +310,18 @@ public partial class MainWindow : Window
     {
         try
         {
+            if (_socket == null || _socket.State != WebSocketState.Open)
+            {
+                MessageBox.Show("Socket not connected. Cannot open Admin window.", "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+
             if (_adminWindow == null)
             {
                 _adminWindow = new AdminWindow(_socket, _username);
                 _adminWindow.Owner = this;
-                _adminWindow.Closed += (s, ev) => _adminWindow = null;
+                _adminWindow.Closed += (_, __) => _adminWindow = null;
 
-                _adminWindow.RefreshUsers();
                 _adminWindow.Show(); 
             }
             else
