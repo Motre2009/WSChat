@@ -345,7 +345,7 @@ public class WSChatServer
 
                                 lock (Clients) Clients.Remove(victim);
                                 lock (UserNames) UserNames.Remove(victim);
-                                lock (ClientRooms) ClientRooms.Remove(victim ?? socket);
+                                lock (ClientRooms) ClientRooms.Remove(victim);
                                 await BroadcastSystemToRoom("General", $"{target} was banned by {admin} until {until.ToLocalTime()}");
                             }
                             await SendUpdatedAdminList();
@@ -374,12 +374,12 @@ public class WSChatServer
                             var victim = UserNames.FirstOrDefault(x => x.Value == target).Key;
                             if (victim != null)
                             {
-                                await SendJson(victim, new ChatPacket { Type = "system", From = "server", Text = $"You are deleted until."});
+                                await SendJson(victim, new ChatPacket { Type = "system", From = "server", Text = "Your account has been permanently deleted by admin." });
                                 await victim.CloseAsync(WebSocketCloseStatus.NormalClosure, "Deleted by admin", CancellationToken.None);
 
                                 lock (Clients) Clients.Remove(victim);
                                 lock (UserNames) UserNames.Remove(victim);
-                                lock (ClientRooms) ClientRooms.Remove(victim ?? socket);
+                                lock (ClientRooms) ClientRooms.Remove(victim);
                                 await BroadcastSystemToRoom("General", $"{target} was deleted by {admin}.");
                             }
                         }
@@ -448,18 +448,12 @@ public class WSChatServer
                                     var user = kv.Value;
                                     if (Admin.Contains(user) && adminSocket != null && adminSocket.State == WebSocketState.Open)
                                     {
-                                        try
+                                        await SendJson(adminSocket, new ChatPacket
                                         {
-                                            await SendJson(adminSocket, new ChatPacket
-                                            {
-                                                Type = "system",
-                                                From = "server",
-                                                Text = $"User '{packet.From}' sent a forbidden word: \"{msg}\""
-                                            });
-                                        }
-                                        catch
-                                        {
-                                        }
+                                            Type = "censor_warning",
+                                            From = packet.From,   
+                                            Text = msg              
+                                        });
                                     }
                                 }
                             }
@@ -675,5 +669,6 @@ public class WSChatServer
         }
 
         return censor;
+
     }
 }

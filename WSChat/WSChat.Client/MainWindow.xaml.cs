@@ -230,6 +230,13 @@ public partial class MainWindow : Window
                             break;
                         }
 
+                    case "censor_warning":
+                        if (_adminWindow != null && pkt.From != null && pkt.Text != null)
+                        {
+                            Dispatcher.Invoke(() => _adminWindow.AddCensorWarning($"{pkt.From}: {pkt.Text}"));
+                        }
+                        break;
+
                     case "private":
                         {
                             if (pkt.To == _username || pkt.From == _username)

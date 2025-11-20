@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("WSChat.Server")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+9773ea49b405e7dff3895020f182e16e8e1fd4e1")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+4fe59e1b0c2cbb9ede5a630d4f1888dc1f21b6d2")]
 [assembly: System.Reflection.AssemblyProductAttribute("WSChat.Server")]
 [assembly: System.Reflection.AssemblyTitleAttribute("WSChat.Server")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

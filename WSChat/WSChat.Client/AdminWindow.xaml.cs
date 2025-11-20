@@ -17,6 +17,7 @@ public partial class AdminWindow : Window
 {
     private readonly ClientWebSocket _socket;
     private readonly string _adminName;
+    public static Dictionary<string, User> UsersData { get; set; } = new();
     private List<string> _allUsers = new();
 
     public AdminWindow(ClientWebSocket socket, string adminName)
@@ -37,6 +38,20 @@ public partial class AdminWindow : Window
 
         Loaded += async (_, __) => await RefreshUsersSafe();
         Closed += (_, __) => { };
+    }
+
+    private static void InitializeAdmin()
+    {
+        if (!UsersData.ContainsKey("admin"))
+        {
+            UsersData["admin"] = new User
+            {
+                Username = "admin",
+                Password = "admin",
+                Role = "Administrator",
+                CreatedAt = DateTime.Now
+            };
+        }
     }
 
     private async Task RefreshUsersSafe()
@@ -61,7 +76,6 @@ public partial class AdminWindow : Window
         await Task.Delay(500);
     }
 
-
     private void SafeSend(ChatPacket pkt)
     {
         Task.Run(async () =>
@@ -82,6 +96,13 @@ public partial class AdminWindow : Window
                     MessageBox.Show("Failed to send: " + ex.Message));
             }
         });
+    }
+
+    public void AddCensorWarning(string text)
+    {
+        CensorList.Items.Add(text);
+        if (CensorList.Items.Count > 200)
+            CensorList.Items.RemoveAt(0);
     }
 
     private string GetSelectedUser() => UsersList.SelectedItem?.ToString() ?? "";
