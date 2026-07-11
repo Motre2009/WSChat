@@ -1,0 +1,103 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\admin\\source\\repos\\WSChat.Infrastructure\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{AAA0FA12-E5AB-4B2B-957C-5A93965D256F}|WSChat.Infrastructure\\WSChat.Infrastructure.csproj|c:\\users\\admin\\source\\repos\\wschat.infrastructure\\wschat.infrastructure\\data\\chatdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{AAA0FA12-E5AB-4B2B-957C-5A93965D256F}|WSChat.Infrastructure\\WSChat.Infrastructure.csproj|solutionrelative:wschat.infrastructure\\data\\chatdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{AAA0FA12-E5AB-4B2B-957C-5A93965D256F}|WSChat.Infrastructure\\WSChat.Infrastructure.csproj|c:\\users\\admin\\source\\repos\\wschat.infrastructure\\wschat.infrastructure\\data\\chatdbcontextfactory.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{AAA0FA12-E5AB-4B2B-957C-5A93965D256F}|WSChat.Infrastructure\\WSChat.Infrastructure.csproj|solutionrelative:wschat.infrastructure\\data\\chatdbcontextfactory.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{AAA0FA12-E5AB-4B2B-957C-5A93965D256F}|WSChat.Infrastructure\\WSChat.Infrastructure.csproj|c:\\users\\admin\\source\\repos\\wschat.infrastructure\\wschat.infrastructure\\reports\\reportservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{AAA0FA12-E5AB-4B2B-957C-5A93965D256F}|WSChat.Infrastructure\\WSChat.Infrastructure.csproj|solutionrelative:wschat.infrastructure\\reports\\reportservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{AAA0FA12-E5AB-4B2B-957C-5A93965D256F}|WSChat.Infrastructure\\WSChat.Infrastructure.csproj|c:\\users\\admin\\source\\repos\\wschat.infrastructure\\wschat.infrastructure\\reports\\reportrequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{AAA0FA12-E5AB-4B2B-957C-5A93965D256F}|WSChat.Infrastructure\\WSChat.Infrastructure.csproj|solutionrelative:wschat.infrastructure\\reports\\reportrequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 1,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedHeight": 263,
+          "SelectedChildIndex": 4,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{3ae79031-e1bc-11d0-8f78-00a0c9110057}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "ReportService.cs",
+              "DocumentMoniker": "C:\\Users\\admin\\source\\repos\\WSChat.Infrastructure\\WSChat.Infrastructure\\Reports\\ReportService.cs",
+              "RelativeDocumentMoniker": "WSChat.Infrastructure\\Reports\\ReportService.cs",
+              "ToolTip": "C:\\Users\\admin\\source\\repos\\WSChat.Infrastructure\\WSChat.Infrastructure\\Reports\\ReportService.cs",
+              "RelativeToolTip": "WSChat.Infrastructure\\Reports\\ReportService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAKYAAAARAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-09T09:50:16.649Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "ReportRequest.cs",
+              "DocumentMoniker": "C:\\Users\\admin\\source\\repos\\WSChat.Infrastructure\\WSChat.Infrastructure\\Reports\\ReportRequest.cs",
+              "RelativeDocumentMoniker": "WSChat.Infrastructure\\Reports\\ReportRequest.cs",
+              "ToolTip": "C:\\Users\\admin\\source\\repos\\WSChat.Infrastructure\\WSChat.Infrastructure\\Reports\\ReportRequest.cs",
+              "RelativeToolTip": "WSChat.Infrastructure\\Reports\\ReportRequest.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAAmAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-09T09:48:25.515Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "ChatDbContextFactory.cs",
+              "DocumentMoniker": "C:\\Users\\admin\\source\\repos\\WSChat.Infrastructure\\WSChat.Infrastructure\\Data\\ChatDbContextFactory.cs",
+              "RelativeDocumentMoniker": "WSChat.Infrastructure\\Data\\ChatDbContextFactory.cs",
+              "ToolTip": "C:\\Users\\admin\\source\\repos\\WSChat.Infrastructure\\WSChat.Infrastructure\\Data\\ChatDbContextFactory.cs",
+              "RelativeToolTip": "WSChat.Infrastructure\\Data\\ChatDbContextFactory.cs",
+              "ViewState": "AgIAAAMAAAAAAAAAAAAAAAYAAAAgAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-08T13:53:45.844Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "ChatDbContext.cs",
+              "DocumentMoniker": "C:\\Users\\admin\\source\\repos\\WSChat.Infrastructure\\WSChat.Infrastructure\\Data\\ChatDbContext.cs",
+              "RelativeDocumentMoniker": "WSChat.Infrastructure\\Data\\ChatDbContext.cs",
+              "ToolTip": "C:\\Users\\admin\\source\\repos\\WSChat.Infrastructure\\WSChat.Infrastructure\\Data\\ChatDbContext.cs",
+              "RelativeToolTip": "WSChat.Infrastructure\\Data\\ChatDbContext.cs",
+              "ViewState": "AgIAABIAAAAAAAAAAAAAABcAAAAnAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-20T10:00:45.111Z",
+              "EditorCaption": ""
+            }
+          ]
+        },
+        {
+          "DockedHeight": 82,
+          "SelectedChildIndex": -1,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{d78612c7-9962-4b83-95d9-268046dad23a}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{34e76e81-ee4a-11d0-ae2e-00a0c90fffc3}"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

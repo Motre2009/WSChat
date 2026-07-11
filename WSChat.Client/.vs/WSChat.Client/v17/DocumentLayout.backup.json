@@ -1,0 +1,148 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\admin\\source\\repos\\WSChat\\WSChat.Client\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{AB5477C9-E6C5-46C9-B256-308BFED7C3CB}|WSChat.Client\\WSChat.Client.csproj|c:\\users\\admin\\source\\repos\\wschat\\wschat.client\\wschat.client\\mainwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{AB5477C9-E6C5-46C9-B256-308BFED7C3CB}|WSChat.Client\\WSChat.Client.csproj|solutionrelative:wschat.client\\mainwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{AB5477C9-E6C5-46C9-B256-308BFED7C3CB}|WSChat.Client\\WSChat.Client.csproj|c:\\users\\admin\\source\\repos\\wschat\\wschat.client\\wschat.client\\loginwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{AB5477C9-E6C5-46C9-B256-308BFED7C3CB}|WSChat.Client\\WSChat.Client.csproj|solutionrelative:wschat.client\\loginwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{AB5477C9-E6C5-46C9-B256-308BFED7C3CB}|WSChat.Client\\WSChat.Client.csproj|c:\\users\\admin\\source\\repos\\wschat\\wschat.client\\wschat.client\\loginwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{AB5477C9-E6C5-46C9-B256-308BFED7C3CB}|WSChat.Client\\WSChat.Client.csproj|solutionrelative:wschat.client\\loginwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{AB5477C9-E6C5-46C9-B256-308BFED7C3CB}|WSChat.Client\\WSChat.Client.csproj|c:\\users\\admin\\source\\repos\\wschat\\wschat.client\\wschat.client\\mainwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{AB5477C9-E6C5-46C9-B256-308BFED7C3CB}|WSChat.Client\\WSChat.Client.csproj|solutionrelative:wschat.client\\mainwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{AB5477C9-E6C5-46C9-B256-308BFED7C3CB}|WSChat.Client\\WSChat.Client.csproj|c:\\users\\admin\\source\\repos\\wschat\\wschat.client\\wschat.client\\adminwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{AB5477C9-E6C5-46C9-B256-308BFED7C3CB}|WSChat.Client\\WSChat.Client.csproj|solutionrelative:wschat.client\\adminwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{AB5477C9-E6C5-46C9-B256-308BFED7C3CB}|WSChat.Client\\WSChat.Client.csproj|c:\\users\\admin\\source\\repos\\wschat\\wschat.client\\wschat.client\\ignoredisposestream.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{AB5477C9-E6C5-46C9-B256-308BFED7C3CB}|WSChat.Client\\WSChat.Client.csproj|solutionrelative:wschat.client\\ignoredisposestream.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{AB5477C9-E6C5-46C9-B256-308BFED7C3CB}|WSChat.Client\\WSChat.Client.csproj|c:\\users\\admin\\source\\repos\\wschat\\wschat.client\\wschat.client\\adminwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{AB5477C9-E6C5-46C9-B256-308BFED7C3CB}|WSChat.Client\\WSChat.Client.csproj|solutionrelative:wschat.client\\adminwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 1,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedHeight": 263,
+          "SelectedChildIndex": 3,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{3ae79031-e1bc-11d0-8f78-00a0c9110057}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "LoginWindow.xaml",
+              "DocumentMoniker": "C:\\Users\\admin\\source\\repos\\WSChat\\WSChat.Client\\WSChat.Client\\LoginWindow.xaml",
+              "RelativeDocumentMoniker": "WSChat.Client\\LoginWindow.xaml",
+              "ToolTip": "C:\\Users\\admin\\source\\repos\\WSChat\\WSChat.Client\\WSChat.Client\\LoginWindow.xaml",
+              "RelativeToolTip": "WSChat.Client\\LoginWindow.xaml",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
+              "WhenOpened": "2025-11-01T11:22:29.087Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "IgnoreDisposeStream.cs",
+              "DocumentMoniker": "C:\\Users\\admin\\source\\repos\\WSChat\\WSChat.Client\\WSChat.Client\\IgnoreDisposeStream.cs",
+              "RelativeDocumentMoniker": "WSChat.Client\\IgnoreDisposeStream.cs",
+              "ToolTip": "C:\\Users\\admin\\source\\repos\\WSChat\\WSChat.Client\\WSChat.Client\\IgnoreDisposeStream.cs",
+              "RelativeToolTip": "WSChat.Client\\IgnoreDisposeStream.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAuwAcAAAALAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-09T23:56:09.668Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "MainWindow.xaml.cs",
+              "DocumentMoniker": "C:\\Users\\admin\\source\\repos\\WSChat\\WSChat.Client\\WSChat.Client\\MainWindow.xaml.cs",
+              "RelativeDocumentMoniker": "WSChat.Client\\MainWindow.xaml.cs",
+              "ToolTip": "C:\\Users\\admin\\source\\repos\\WSChat\\WSChat.Client\\WSChat.Client\\MainWindow.xaml.cs",
+              "RelativeToolTip": "WSChat.Client\\MainWindow.xaml.cs",
+              "ViewState": "AgIAAI4AAAAAAAAAAAAYwJUAAAAWAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-12T21:50:26.534Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "MainWindow.xaml",
+              "DocumentMoniker": "C:\\Users\\admin\\source\\repos\\WSChat\\WSChat.Client\\WSChat.Client\\MainWindow.xaml",
+              "RelativeDocumentMoniker": "WSChat.Client\\MainWindow.xaml",
+              "ToolTip": "C:\\Users\\admin\\source\\repos\\WSChat\\WSChat.Client\\WSChat.Client\\MainWindow.xaml",
+              "RelativeToolTip": "WSChat.Client\\MainWindow.xaml",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
+              "WhenOpened": "2025-10-30T09:42:15.986Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "LoginWindow.xaml.cs",
+              "DocumentMoniker": "C:\\Users\\admin\\source\\repos\\WSChat\\WSChat.Client\\WSChat.Client\\LoginWindow.xaml.cs",
+              "RelativeDocumentMoniker": "WSChat.Client\\LoginWindow.xaml.cs",
+              "ToolTip": "C:\\Users\\admin\\source\\repos\\WSChat\\WSChat.Client\\WSChat.Client\\LoginWindow.xaml.cs",
+              "RelativeToolTip": "WSChat.Client\\LoginWindow.xaml.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAASAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-01T11:33:30.645Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "AdminWindow.xaml.cs",
+              "DocumentMoniker": "C:\\Users\\admin\\source\\repos\\WSChat\\WSChat.Client\\WSChat.Client\\AdminWindow.xaml.cs",
+              "RelativeDocumentMoniker": "WSChat.Client\\AdminWindow.xaml.cs",
+              "ToolTip": "C:\\Users\\admin\\source\\repos\\WSChat\\WSChat.Client\\WSChat.Client\\AdminWindow.xaml.cs",
+              "RelativeToolTip": "WSChat.Client\\AdminWindow.xaml.cs",
+              "ViewState": "AgIAAAYAAAAAAAAAAAAAACgAAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-06T10:56:06.778Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "AdminWindow.xaml",
+              "DocumentMoniker": "C:\\Users\\admin\\source\\repos\\WSChat\\WSChat.Client\\WSChat.Client\\AdminWindow.xaml",
+              "RelativeDocumentMoniker": "WSChat.Client\\AdminWindow.xaml",
+              "ToolTip": "C:\\Users\\admin\\source\\repos\\WSChat\\WSChat.Client\\WSChat.Client\\AdminWindow.xaml",
+              "RelativeToolTip": "WSChat.Client\\AdminWindow.xaml",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
+              "WhenOpened": "2025-11-06T10:55:28.2Z"
+            }
+          ]
+        },
+        {
+          "DockedHeight": 82,
+          "SelectedChildIndex": -1,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{d78612c7-9962-4b83-95d9-268046dad23a}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{34e76e81-ee4a-11d0-ae2e-00a0c90fffc3}"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

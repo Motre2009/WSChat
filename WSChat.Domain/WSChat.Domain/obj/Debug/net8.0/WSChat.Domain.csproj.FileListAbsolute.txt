@@ -1,0 +1,11 @@
+C:\Users\admin\source\repos\WSChat.Domain\WSChat.Domain\bin\Debug\net8.0\WSChat.Domain.deps.json
+C:\Users\admin\source\repos\WSChat.Domain\WSChat.Domain\bin\Debug\net8.0\WSChat.Domain.dll
+C:\Users\admin\source\repos\WSChat.Domain\WSChat.Domain\bin\Debug\net8.0\WSChat.Domain.pdb
+C:\Users\admin\source\repos\WSChat.Domain\WSChat.Domain\obj\Debug\net8.0\WSChat.Domain.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\admin\source\repos\WSChat.Domain\WSChat.Domain\obj\Debug\net8.0\WSChat.Domain.AssemblyInfoInputs.cache
+C:\Users\admin\source\repos\WSChat.Domain\WSChat.Domain\obj\Debug\net8.0\WSChat.Domain.AssemblyInfo.cs
+C:\Users\admin\source\repos\WSChat.Domain\WSChat.Domain\obj\Debug\net8.0\WSChat.Domain.csproj.CoreCompileInputs.cache
+C:\Users\admin\source\repos\WSChat.Domain\WSChat.Domain\obj\Debug\net8.0\WSChat.Domain.dll
+C:\Users\admin\source\repos\WSChat.Domain\WSChat.Domain\obj\Debug\net8.0\refint\WSChat.Domain.dll
+C:\Users\admin\source\repos\WSChat.Domain\WSChat.Domain\obj\Debug\net8.0\WSChat.Domain.pdb
+C:\Users\admin\source\repos\WSChat.Domain\WSChat.Domain\obj\Debug\net8.0\ref\WSChat.Domain.dll

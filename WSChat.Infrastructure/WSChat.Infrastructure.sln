@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.14.36429.23 d17.14
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WSChat.Infrastructure", "WSChat.Infrastructure\WSChat.Infrastructure.csproj", "{AAA0FA12-E5AB-4B2B-957C-5A93965D256F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WSChat.Domain", "..\WSChat.Domain\WSChat.Domain\WSChat.Domain.csproj", "{39C287FF-8C14-34BC-1D80-572C5C4A9567}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{AAA0FA12-E5AB-4B2B-957C-5A93965D256F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AAA0FA12-E5AB-4B2B-957C-5A93965D256F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AAA0FA12-E5AB-4B2B-957C-5A93965D256F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AAA0FA12-E5AB-4B2B-957C-5A93965D256F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{39C287FF-8C14-34BC-1D80-572C5C4A9567}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{39C287FF-8C14-34BC-1D80-572C5C4A9567}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{39C287FF-8C14-34BC-1D80-572C5C4A9567}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{39C287FF-8C14-34BC-1D80-572C5C4A9567}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {8BBDBD07-2274-419E-8043-21EE9D830FF6}
+	EndGlobalSection
+EndGlobal

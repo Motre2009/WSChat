@@ -1,0 +1,71 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\admin\\source\\repos\\WSChat.Server\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{4F59EDB1-AAAC-459E-867F-C6F76E148BF7}|WSChat.Server\\WSChat.Server.csproj|c:\\users\\admin\\source\\repos\\wschat.server\\wschat.server\\wschatserver.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4F59EDB1-AAAC-459E-867F-C6F76E148BF7}|WSChat.Server\\WSChat.Server.csproj|solutionrelative:wschat.server\\wschatserver.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4F59EDB1-AAAC-459E-867F-C6F76E148BF7}|WSChat.Server\\WSChat.Server.csproj|c:\\users\\admin\\source\\repos\\wschat.server\\wschat.server\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4F59EDB1-AAAC-459E-867F-C6F76E148BF7}|WSChat.Server\\WSChat.Server.csproj|solutionrelative:wschat.server\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 1,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedHeight": 263,
+          "SelectedChildIndex": 1,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{3ae79031-e1bc-11d0-8f78-00a0c9110057}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "WSChatServer.cs",
+              "DocumentMoniker": "C:\\Users\\admin\\source\\repos\\WSChat.Server\\WSChat.Server\\WSChatServer.cs",
+              "RelativeDocumentMoniker": "WSChat.Server\\WSChatServer.cs",
+              "ToolTip": "C:\\Users\\admin\\source\\repos\\WSChat.Server\\WSChat.Server\\WSChatServer.cs",
+              "RelativeToolTip": "WSChat.Server\\WSChatServer.cs",
+              "ViewState": "AgIAAI4AAAAAAAAAAAAQwCwAAABXAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-20T11:45:55.321Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\admin\\source\\repos\\WSChat.Server\\WSChat.Server\\Program.cs",
+              "RelativeDocumentMoniker": "WSChat.Server\\Program.cs",
+              "ToolTip": "C:\\Users\\admin\\source\\repos\\WSChat.Server\\WSChat.Server\\Program.cs",
+              "RelativeToolTip": "WSChat.Server\\Program.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-20T11:44:49.165Z"
+            }
+          ]
+        },
+        {
+          "DockedHeight": 82,
+          "SelectedChildIndex": -1,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{d78612c7-9962-4b83-95d9-268046dad23a}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{34e76e81-ee4a-11d0-ae2e-00a0c90fffc3}"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

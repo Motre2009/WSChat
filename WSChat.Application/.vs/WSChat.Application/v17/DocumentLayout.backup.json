@@ -1,0 +1,135 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\admin\\source\\repos\\WSChat.Application\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{128BABD4-4840-453A-BC9B-9CFCD0A4C189}|WSChat.Application\\WSChat.Application.csproj|c:\\users\\admin\\source\\repos\\wschat.application\\wschat.application\\services\\authservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{128BABD4-4840-453A-BC9B-9CFCD0A4C189}|WSChat.Application\\WSChat.Application.csproj|solutionrelative:wschat.application\\services\\authservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{128BABD4-4840-453A-BC9B-9CFCD0A4C189}|WSChat.Application\\WSChat.Application.csproj|c:\\users\\admin\\source\\repos\\wschat.application\\wschat.application\\services\\activitylogservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{128BABD4-4840-453A-BC9B-9CFCD0A4C189}|WSChat.Application\\WSChat.Application.csproj|solutionrelative:wschat.application\\services\\activitylogservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{128BABD4-4840-453A-BC9B-9CFCD0A4C189}|WSChat.Application\\WSChat.Application.csproj|c:\\users\\admin\\source\\repos\\wschat.application\\wschat.application\\services\\weatherservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{128BABD4-4840-453A-BC9B-9CFCD0A4C189}|WSChat.Application\\WSChat.Application.csproj|solutionrelative:wschat.application\\services\\weatherservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{128BABD4-4840-453A-BC9B-9CFCD0A4C189}|WSChat.Application\\WSChat.Application.csproj|c:\\users\\admin\\source\\repos\\wschat.application\\wschat.application\\services\\newsservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{128BABD4-4840-453A-BC9B-9CFCD0A4C189}|WSChat.Application\\WSChat.Application.csproj|solutionrelative:wschat.application\\services\\newsservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{128BABD4-4840-453A-BC9B-9CFCD0A4C189}|WSChat.Application\\WSChat.Application.csproj|c:\\users\\admin\\source\\repos\\wschat.application\\wschat.application\\services\\jokeservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{128BABD4-4840-453A-BC9B-9CFCD0A4C189}|WSChat.Application\\WSChat.Application.csproj|solutionrelative:wschat.application\\services\\jokeservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{128BABD4-4840-453A-BC9B-9CFCD0A4C189}|WSChat.Application\\WSChat.Application.csproj|c:\\users\\admin\\source\\repos\\wschat.application\\wschat.application\\services\\emailservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{128BABD4-4840-453A-BC9B-9CFCD0A4C189}|WSChat.Application\\WSChat.Application.csproj|solutionrelative:wschat.application\\services\\emailservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 1,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedHeight": 263,
+          "SelectedChildIndex": 6,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{3ae79031-e1bc-11d0-8f78-00a0c9110057}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "EmailService.cs",
+              "DocumentMoniker": "C:\\Users\\admin\\source\\repos\\WSChat.Application\\WSChat.Application\\Services\\EmailService.cs",
+              "RelativeDocumentMoniker": "WSChat.Application\\Services\\EmailService.cs",
+              "ToolTip": "C:\\Users\\admin\\source\\repos\\WSChat.Application\\WSChat.Application\\Services\\EmailService.cs",
+              "RelativeToolTip": "WSChat.Application\\Services\\EmailService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAgAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-17T10:49:44.853Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "JokeService.cs",
+              "DocumentMoniker": "C:\\Users\\admin\\source\\repos\\WSChat.Application\\WSChat.Application\\Services\\JokeService.cs",
+              "RelativeDocumentMoniker": "WSChat.Application\\Services\\JokeService.cs",
+              "ToolTip": "C:\\Users\\admin\\source\\repos\\WSChat.Application\\WSChat.Application\\Services\\JokeService.cs",
+              "RelativeToolTip": "WSChat.Application\\Services\\JokeService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAALgAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-17T10:34:08.042Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "NewsService.cs",
+              "DocumentMoniker": "C:\\Users\\admin\\source\\repos\\WSChat.Application\\WSChat.Application\\Services\\NewsService.cs",
+              "RelativeDocumentMoniker": "WSChat.Application\\Services\\NewsService.cs",
+              "ToolTip": "C:\\Users\\admin\\source\\repos\\WSChat.Application\\WSChat.Application\\Services\\NewsService.cs",
+              "RelativeToolTip": "WSChat.Application\\Services\\NewsService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAALMAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-17T09:54:46.539Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "WeatherService.cs",
+              "DocumentMoniker": "C:\\Users\\admin\\source\\repos\\WSChat.Application\\WSChat.Application\\Services\\WeatherService.cs",
+              "RelativeDocumentMoniker": "WSChat.Application\\Services\\WeatherService.cs",
+              "ToolTip": "C:\\Users\\admin\\source\\repos\\WSChat.Application\\WSChat.Application\\Services\\WeatherService.cs",
+              "RelativeToolTip": "WSChat.Application\\Services\\WeatherService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAHMAAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-16T17:19:57.524Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "ActivityLogService.cs",
+              "DocumentMoniker": "C:\\Users\\admin\\source\\repos\\WSChat.Application\\WSChat.Application\\Services\\ActivityLogService.cs",
+              "RelativeDocumentMoniker": "WSChat.Application\\Services\\ActivityLogService.cs",
+              "ToolTip": "C:\\Users\\admin\\source\\repos\\WSChat.Application\\WSChat.Application\\Services\\ActivityLogService.cs",
+              "RelativeToolTip": "WSChat.Application\\Services\\ActivityLogService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABsAAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-03T17:47:21.022Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "AuthService.cs",
+              "DocumentMoniker": "C:\\Users\\admin\\source\\repos\\WSChat.Application\\WSChat.Application\\Services\\AuthService.cs",
+              "RelativeDocumentMoniker": "WSChat.Application\\Services\\AuthService.cs",
+              "ToolTip": "C:\\Users\\admin\\source\\repos\\WSChat.Application\\WSChat.Application\\Services\\AuthService.cs",
+              "RelativeToolTip": "WSChat.Application\\Services\\AuthService.cs",
+              "ViewState": "AgIAAKUAAAAAAAAAAAAAwLYAAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-20T10:01:15.524Z",
+              "EditorCaption": ""
+            }
+          ]
+        },
+        {
+          "DockedHeight": 82,
+          "SelectedChildIndex": -1,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{d78612c7-9962-4b83-95d9-268046dad23a}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{34e76e81-ee4a-11d0-ae2e-00a0c90fffc3}"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
